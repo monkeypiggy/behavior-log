@@ -1,5 +1,6 @@
 package cn.zhumengqi.es.service;
 
+import cn.zhumengqi.es.util.CusDateUtil;
 import cn.zhumengqi.es.util.SearchResult;
 
 import java.io.UnsupportedEncodingException;
@@ -21,7 +22,6 @@ import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
-// TODO:一样的代码，这里Operator不存在
 import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
@@ -33,6 +33,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+
+// TODO:一样的代码，这里Operator不存在
+
 
 /**
  * Created by zhumengqi on 17-4-30.
@@ -215,7 +218,7 @@ public class SearchService {
             value = kv[1];
             if (key.equals("time")) {
                 try {
-                    value = CusDataUtil.timeStampCovertStand(value);
+                    value = CusDateUtil.timeStampCovertStand(value);
                 } catch (Exception e) {
                     value = kv[1];
                 }
@@ -236,9 +239,9 @@ public class SearchService {
     //  根据查询时间，生成对应的索引id列表，以确定搜索范围。
     private ArrayList<String> genIndicesDate(String gid, String startDateString, String endDateString) throws
             Exception {
-        //      将日期中的-替换为. TODO:可以在CusDataUtil类中修改这个方法，或者增加一个专用的方法
-        startDateString = CusDataUtil.timeStampCovertES(startDateString).substring(0, 10);//.replace("-", ".");
-        endDateString = CusDataUtil.timeStampCovertES(endDateString).substring(0, 10);//.replace("-", ".");
+        //      将日期中的-替换为. TODO:可以在CusDateUtil类中修改这个方法，或者增加一个专用的方法
+        startDateString = CusDateUtil.timeStampCovertES(startDateString).substring(0, 10);//.replace("-", ".");
+        endDateString = CusDateUtil.timeStampCovertES(endDateString).substring(0, 10);//.replace("-", ".");
         ArrayList<String> indicesList = new ArrayList<String>();
 
         //      如果起止时间相等，则是同一天，拼接并返回该索引即可
